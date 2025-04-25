@@ -10,6 +10,6 @@ enum class DrawerItem(
     val text: String,
     val route: Destination
 ) {
-    MAP(Icons.Default.Place, "Home", Destination.Map),
-    LIST(Icons.Default.LocationOn, "Settings", Destination.List),
+    MAP(Icons.Default.Place, "Map", Destination.Map),
+    LIST(Icons.Default.LocationOn, "List", Destination.List),
 }

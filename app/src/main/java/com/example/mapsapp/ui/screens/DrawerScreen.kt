@@ -56,7 +56,7 @@ fun DrawerScreen(){
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Awesome App") },
+                    title = { Text("Maps App") },
                     navigationIcon = {
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
                             Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
@@ -65,7 +65,8 @@ fun DrawerScreen(){
                 )
             }
         ) { innerPadding ->
-            InternalNavigationWrapper(navController, Modifier.padding(innerPadding))
+            InternalNavigationWrapper(navController, Modifier.padding(innerPadding)) {
+            }
         }
 
     }
