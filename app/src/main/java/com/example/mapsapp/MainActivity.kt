@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.mapsapp.ui.navigation.MainNavigationWrapper
+import com.example.mapsapp.ui.screens.PermissionsScreen
 import com.example.mapsapp.ui.theme.MapsAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +21,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MapsAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainNavigationWrapper()
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    MapsAppTheme {
-        Greeting("Android")
-    }
+
 }
