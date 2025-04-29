@@ -18,7 +18,7 @@ sealed class Destination {
     object List: Destination()
 
     @Serializable
-    data class MarkerCreation(@Contextual val coordeandes: LatLng): Destination()
+    data class MarkerCreation(@Contextual val coordeandes: String): Destination()
 
     @Serializable
     data class MarkerDetail(val id:Int): Destination()

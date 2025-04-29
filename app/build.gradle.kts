@@ -62,11 +62,14 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-    implementation("com.google.maps.android:maps-compose:2.11.4")
-    implementation("com.google.android.gms:play-services-maps:19.2.0")
-    implementation("com.google.android.gms:play-services-location:21.3.0")
-    implementation ("androidx.browser:browser:1.8.0")
-    implementation("androidx.browser:browser:1.9.0-alpha03")
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+    implementation (libs.androidx.browser.v180)
+    implementation(libs.browser)
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.1.4"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.ktor:ktor-client-android:3.1.2")
 }
 
 secrets {
