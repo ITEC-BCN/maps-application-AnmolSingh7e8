@@ -23,7 +23,7 @@ fun InternalNavigationWrapper(
         modifier = padding
     ) {
         composable<Destination.Map> {
-            MapsScreen{latLng -> navController.navigate(Destination.MarkerCreation(latLng))}
+            MapsScreen()
         }
         composable<Destination.List> {
             MakerListScreen()
