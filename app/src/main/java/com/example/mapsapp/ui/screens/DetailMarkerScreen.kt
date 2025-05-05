@@ -3,7 +3,6 @@ package com.example.mapsapp.ui.screens
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Camera
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,11 +35,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mapsapp.ui.navigation.Destination
 import com.example.mapsapp.ui.viewmodel.MarkerViewModel
 import java.io.File
 
 @Composable
-fun DetailMakerScreen() {
+fun DetailMakerScreen(function: () -> Unit) {
     val markerViewModel: MarkerViewModel = viewModel()
     val marker = markerViewModel.selectedMarker
     val context = LocalContext.current
@@ -135,11 +135,4 @@ fun createImageUri(context: Context): Uri? {
         "${context.packageName}.fileprovider",
         file
     )
-}
-
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun DetailMaker() {
-    DetailMakerScreen()
 }

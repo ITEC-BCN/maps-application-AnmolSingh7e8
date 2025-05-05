@@ -1,3 +1,13 @@
+import java.util.Properties
+
+val localPropsFile = rootProject.file("local.properties")
+val localProps = Properties().apply {
+    if (localPropsFile.exists()) {
+        load(localPropsFile.inputStream())
+    }
+}
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,6 +28,18 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            type = "String",
+            name = "SUPABASE_URL",
+            value = "\"${localProps.getProperty("https://dfqholekpaoudugakjtr.supabase.co") ?: ""}\""
+        )
+        buildConfigField(
+            type = "String",
+            name = "SUPABASE_KEY",
+            value = "\"${localProps.getProperty("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmcWhvbGVrcGFvdWR1Z2FranRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4Mjc3ODQsImV4cCI6MjA2MTQwMzc4NH0.l5AzTOvwK5h18DOTmGwFYb96cUYSsLjz8F6XMkUZxrE") ?: ""}\""
+        )
+
     }
 
     buildTypes {
@@ -38,6 +60,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -70,6 +93,9 @@ dependencies {
     implementation(platform("io.github.jan-tennert.supabase:bom:3.1.4"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("io.ktor:ktor-client-android:3.1.2")
+    implementation("io.github.jan-tennert.supabase:storage-kt:$3.1.4")
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
 }
 
 secrets {

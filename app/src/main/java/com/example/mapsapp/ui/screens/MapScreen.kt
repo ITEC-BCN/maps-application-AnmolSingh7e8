@@ -14,7 +14,7 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun MapsScreen() {
+fun MapsScreen(NavigateToDetailScreen: (String) -> Unit) {
     val markerViewModel: MarkerViewModel = viewModel()
     Column(modifier = Modifier.fillMaxSize()) {
         val initialPosition = LatLng(41.4534225, 2.1837151)
@@ -26,7 +26,7 @@ fun MapsScreen() {
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
             onMapLongClick = { latLng ->
-                markerViewModel.selectedMarker = latLng
+                NavigateToDetailScreen(latLng.toString())
             }
         ) {
             markerViewModel.selectedMarker?.let {
