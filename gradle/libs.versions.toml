@@ -23,6 +23,7 @@ androidbrowserhelper = "2.6.0"
 composeNavigation = "2.8.9"
 serialization = "1.7.3"
 supabase-kt = "0.9.0"
+media3CommonKtx = "1.6.1"
 
 [libraries]
 androidx-browser-v180 = { module = "androidx.browser:browser", version.ref = "browser" }
@@ -55,6 +56,7 @@ androidbrowserhelper = { group = "com.google.androidbrowserhelper", name = "andr
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 supabase-kt = { group = "io.github.jan-tennert.supabase-kt", name = "supabase-kt", version.ref = "supabase-kt" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

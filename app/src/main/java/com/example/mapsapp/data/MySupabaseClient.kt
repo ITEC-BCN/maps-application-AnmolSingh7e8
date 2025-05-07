@@ -1,7 +1,9 @@
 package com.example.mapsapp.data
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.media3.common.Format
 import com.example.mapsapp.BuildConfig
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
@@ -9,13 +11,13 @@ import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.storage.Storage
 import io.github.jan.supabase.storage.storage
-import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class MySupabaseClient {
-    lateinit var client: SupabaseClient
-    lateinit var storage: Storage
+    var client: SupabaseClient
+    var storage: Storage
     private val supabaseUrl = BuildConfig.SUPABASE_URL
     private val supabaseKey = BuildConfig.SUPABASE_KEY
 
@@ -30,10 +32,11 @@ class MySupabaseClient {
     //Creació de l'adreça de l'imatge i pujada a Supabase
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun uploadImage(imageFile: ByteArray): String {
-        val fechaHoraActual = LocalDateTime
+        Log.d("TAG", this.supabaseUrl)
+        val fechaHoraActual = LocalDateTime.now()
         val formato = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
         val imageName = storage.from("images")
-            .upload(path = "image_${fechaHoraActual.Format { formato }}.png", data = imageFile)
+            .upload(path = "image_${fechaHoraActual.format (formato)}.png", data = imageFile)
         return buildImageUrl(imageFileName = imageName.path)
     }
 
@@ -42,18 +45,18 @@ class MySupabaseClient {
 
     suspend fun deleteImage(imageName: String) {
         val imgName =
-            imageName.removePrefix("https://aobflzinjcljzqpxpcxs.supabase.co/storage/v1/object/public/images/")
+            imageName.removePrefix("${this.supabaseUrl}/storage/v1/object/public/images/")
         client.storage.from("images").delete(imgName)
     }
 
     //Llistar els marcadors
     suspend fun getMarkers(): List<Marker> {
-        return client.from("Markers").select().decodeList<Marker>()
+        return client.from("Marker").select().decodeList<Marker>()
     }
 
     //Insertar un marcador
     suspend fun insertMarker(marker: Marker) {
-        client.from("Markers").insert(marker)
+        client.from("Marker").insert(marker)
     }
 
 
@@ -80,7 +83,7 @@ class MySupabaseClient {
     }
 
     suspend fun deleteMarker(id: String) {
-        client.from("Student").delete {
+        client.from("Marker").delete {
             filter {
                 eq("id", id)
             }

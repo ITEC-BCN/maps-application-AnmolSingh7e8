@@ -36,7 +36,7 @@ fun InternalNavigationWrapper(
 
         composable<Destination.MarkerCreation> { backStackEntry ->
             val markerCreation = backStackEntry.toRoute<Destination.MarkerCreation>()
-            DetailMakerScreen {
+            DetailMakerScreen(cordenadas = markerCreation.coordeandes) { // Pass the coordinates
                 navController.navigate(Destination.Map) {
                     popUpTo<Destination.Map> { inclusive = true }
                 }

@@ -4,8 +4,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,22 +33,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mapsapp.ui.navigation.Destination
-import com.example.mapsapp.ui.viewmodel.MarkerViewModel
+import com.example.mapsapp.viewmodels.SupaViewModel
 import java.io.File
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DetailMakerScreen(function: () -> Unit) {
-    val markerViewModel: MarkerViewModel = viewModel()
-    val marker = markerViewModel.selectedMarker
+fun DetailMakerScreen(cordenadas: String, function: () -> Unit) {
+    val supaViewModel: SupaViewModel = viewModel()
     val context = LocalContext.current
     val imageUri = remember { mutableStateOf<Uri?>(null) }
     val bitmap = remember { mutableStateOf<Bitmap?>(null) }
     var showDialog by remember { mutableStateOf(false) }
+    var title by remember { mutableStateOf("") } // Estado para el título
+    var description by remember { mutableStateOf("") } // Estado para la descripción
+
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success && imageUri.value != null) {
@@ -63,21 +66,20 @@ fun DetailMakerScreen(function: () -> Unit) {
             }
         }
 
-
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextField(
-            value = "",
-            onValueChange = {},
+            value = title, // Vincula el estado del título
+            onValueChange = { title = it }, // Actualiza el estado
             label = { Text("Title") }
         )
         Spacer(modifier = Modifier.padding(20.dp))
         TextField(
-            value = "",
-            onValueChange = {},
+            value = description, // Vincula el estado de la descripción
+            onValueChange = { description = it }, // Actualiza el estado
             label = { Text("Description") },
         )
         Spacer(modifier = Modifier.padding(20.dp))
@@ -106,23 +108,28 @@ fun DetailMakerScreen(function: () -> Unit) {
                 }
             )
         }
-            Button(onClick = { showDialog = true }) {
-                Text("Abrir Cámara o Galería")
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            bitmap.value?.let {
-                Image(
-                    bitmap = it.asImageBitmap(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(300.dp)
-                        .clip(RoundedCornerShape(16.dp)),
-                    contentScale = ContentScale.Crop
-                )
+        Button(onClick = { showDialog = true }) {
+            Text("Abrir Cámara o Galería")
         }
-    }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        bitmap.value?.let {
+            Image(
+                bitmap = it.asImageBitmap(),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(300.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+        Button(onClick = {
+            supaViewModel.insertNewMarker(0, title, description, cordenadas, bitmap.value)
+        }) {
+            Text("Guardar Marcador")
+        }    }
 }
 
 fun createImageUri(context: Context): Uri? {

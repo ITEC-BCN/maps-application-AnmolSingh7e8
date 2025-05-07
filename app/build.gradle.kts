@@ -20,6 +20,10 @@ android {
     namespace = "com.example.mapsapp"
     compileSdk = 36
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.example.mapsapp"
         minSdk = 24
@@ -32,12 +36,12 @@ android {
         buildConfigField(
             type = "String",
             name = "SUPABASE_URL",
-            value = "\"${localProps.getProperty("https://dfqholekpaoudugakjtr.supabase.co") ?: ""}\""
+            value = "\"${localProps.getProperty("supabaseUrl") ?: ""}\""
         )
         buildConfigField(
             type = "String",
             name = "SUPABASE_KEY",
-            value = "\"${localProps.getProperty("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmcWhvbGVrcGFvdWR1Z2FranRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4Mjc3ODQsImV4cCI6MjA2MTQwMzc4NH0.l5AzTOvwK5h18DOTmGwFYb96cUYSsLjz8F6XMkUZxrE") ?: ""}\""
+            value = "\"${localProps.getProperty("supabaseKey") ?: ""}\""
         )
 
     }
@@ -74,6 +78,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidbrowserhelper)
+    implementation(libs.androidx.media3.common.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
