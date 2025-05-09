@@ -17,7 +17,7 @@ class SupaViewModel : ViewModel() {
     val database = MyApp.database
 
     private val _markerList = MutableLiveData<List<Marker>>()
-    val studentsList = _markerList
+    val markerList = _markerList
 
     private val _selectedMarker = MutableLiveData<Marker?>()
     val selectedMarker = _selectedMarker
@@ -36,9 +36,9 @@ class SupaViewModel : ViewModel() {
 
     fun getAllMarkers() {
         CoroutineScope(Dispatchers.IO).launch {
-            val databaseStudents = database.getMarkers()
+            val databaseMarkers = database.getMarkers()
             withContext(Dispatchers.Main) {
-                _markerList.value = databaseStudents
+                _markerList.value = databaseMarkers
             }
         }
     }

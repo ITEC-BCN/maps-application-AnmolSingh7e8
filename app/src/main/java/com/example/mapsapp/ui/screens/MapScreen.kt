@@ -31,10 +31,9 @@ fun MapsScreen(NavigateToDetailScreen: (String) -> Unit) {
         ) {
             markerViewModel.selectedMarker?.let {
                 Marker(
-                    state = MarkerState(position = it),
-                    title = "Nuevo Marcador",
-                    snippet = "Añade información"
+                    state = MarkerState(position = it)
                 )
+
             }
         }
     }
