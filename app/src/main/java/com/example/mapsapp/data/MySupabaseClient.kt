@@ -64,17 +64,16 @@ class MySupabaseClient {
         id: Int,
         title: String,
         description: String,
-        latlng: String,
         imageName: String,
         imageFile: ByteArray
     ) {
         val imageName = storage.from("images").update(path = imageName, data = imageFile)
-        client.from("Student").update({
+        client.from("Marker").update({
             set("id", id)
             set("title", title)
             set("description", description)
-            set("latlng", latlng)
-            set("image", buildImageUrl(imageFileName = imageName.path))
+            //set("latlng", latlng)
+            set("imageUrl", buildImageUrl(imageFileName = imageName.path))
         }) {
             filter {
                 eq("id", id)

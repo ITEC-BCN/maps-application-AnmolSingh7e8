@@ -60,7 +60,7 @@ class SupaViewModel : ViewModel() {
     }
 
 
-    fun updateMarker(id: Int, title: String, description: String, latlng: String, image: Bitmap?) {
+    fun updateMarker(id: Int, title: String, description: String, image: Bitmap?) {
         val stream = ByteArrayOutputStream()
         image?.compress(Bitmap.CompressFormat.PNG, 0, stream)
         val imageName =
@@ -70,7 +70,6 @@ class SupaViewModel : ViewModel() {
                 id,
                 title,
                 description,
-                latlng,
                 imageName.toString(),
                 stream.toByteArray()
             )

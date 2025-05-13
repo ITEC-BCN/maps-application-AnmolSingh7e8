@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.mapsapp.ui.screens.CreateMarkerScreen
+import com.example.mapsapp.ui.screens.DetailMarkerScreen
 import com.example.mapsapp.ui.screens.MakerListScreen
 import com.example.mapsapp.ui.screens.MapsScreen
 
@@ -28,11 +29,19 @@ fun InternalNavigationWrapper(
         composable<Destination.Map> {
             MapsScreen { latLng -> navController.navigate(Destination.MarkerCreation(coordeandes = latLng)) }
         }
-        composable<Destination.List> { backStackEntry ->
-            val listScreen = backStackEntry.toRoute<Destination.List>()
-            MakerListScreen {
-                navController.navigate(Destination.Map) {
+        composable<Destination.List> {
+            MakerListScreen { id ->
+                navController.navigate(Destination.MarkerDetail(id)) {
                     popUpTo<Destination.Map> { inclusive = true }
+                }
+            }
+        }
+
+        composable<Destination.MarkerDetail>{
+            val markerDetail = it.toRoute<Destination.MarkerDetail>()
+            DetailMarkerScreen(id = markerDetail.id) {
+                navController.navigate(Destination.List) {
+                    popUpTo(Destination.Map) { inclusive = true }
                 }
             }
         }
