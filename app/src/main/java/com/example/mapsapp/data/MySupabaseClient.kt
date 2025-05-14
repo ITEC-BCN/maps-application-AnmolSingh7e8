@@ -5,7 +5,12 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.media3.common.Format
 import com.example.mapsapp.BuildConfig
+import com.example.mapsapp.utils.AuthState
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.providers.builtin.Email
+import io.github.jan.supabase.auth.user.UserSession
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
@@ -25,6 +30,9 @@ class MySupabaseClient {
         client = createSupabaseClient(supabaseUrl = supabaseUrl, supabaseKey = supabaseKey) {
             install(Postgrest)
             install(Storage)
+            install(Auth){
+                autoLoadFromStorage = true
+            }
         }
         storage = client.storage
     }
@@ -43,6 +51,7 @@ class MySupabaseClient {
     fun buildImageUrl(imageFileName: String) =
         "${this.supabaseUrl}/storage/v1/object/public/images/${imageFileName}"
 
+    //Eliminar la imatge
     suspend fun deleteImage(imageName: String) {
         val imgName =
             imageName.removePrefix("${this.supabaseUrl}/storage/v1/object/public/images/")
@@ -59,7 +68,7 @@ class MySupabaseClient {
         client.from("Marker").insert(marker)
     }
 
-
+    //Actualitzar un marcador
     suspend fun updateMarker(
         id: Int,
         title: String,
@@ -81,7 +90,8 @@ class MySupabaseClient {
         }
     }
 
-    suspend fun deleteMarker(id: String) {
+    //Eliminar un marcador
+    suspend fun deleteMarker(id: Int) {
         client.from("Marker").delete {
             filter {
                 eq("id", id)
@@ -89,4 +99,52 @@ class MySupabaseClient {
         }
 
     }
+
+    //Autenticació
+
+    //SignUp amb Google
+    suspend fun signUpWithEmail(emailValue: String, passwordValue: String): AuthState {
+        try {
+            client.auth.signUpWith(Email) {
+                email = emailValue
+                password = passwordValue
+            }
+            return AuthState.Authenticated
+        } catch (e: Exception) {
+            return AuthState.Error(e.localizedMessage)
+        }
+    }
+
+    //SignIn amb Google
+    suspend fun signInWithEmail(emailValue: String, passwordValue: String): AuthState {
+        try {
+            client.auth.signInWith(Email) {
+                email = emailValue
+                password = passwordValue
+            }
+            return AuthState.Authenticated
+        } catch (e: Exception) {
+            return AuthState.Error(e.localizedMessage)
+        }
+    }
+
+    //Ens retorna les dades de l'usuari actual
+    fun retrieveCurrentSession(): UserSession?{
+        val session = client.auth.currentSessionOrNull()
+        return session
+    }
+
+
+    //Funció que actualitzarà la sessió activa
+    fun refreshSession(): AuthState {
+        try {
+            client.auth.currentSessionOrNull()
+            return AuthState.Authenticated
+        } catch (e: Exception) {
+            return AuthState.Error(e.localizedMessage)
+        }
+    }
+
+
+
 }

@@ -77,7 +77,7 @@ class SupaViewModel : ViewModel() {
     }
 
 
-    fun deleteImatge(id: String, image: String) {
+    fun deleteImatge(id: Int, image: String) {
         CoroutineScope(Dispatchers.IO).launch {
             database.deleteImage(image)
             database.deleteMarker(id)

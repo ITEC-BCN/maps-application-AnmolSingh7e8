@@ -1,10 +1,16 @@
 package com.example.mapsapp.ui.navigation
 
-import com.google.android.gms.maps.model.LatLng
-import kotlinx.serialization.Contextual
+
 import kotlinx.serialization.Serializable
 
 sealed class Destination {
+
+    @Serializable
+    object Login: Destination()
+
+    @Serializable
+    object SignUp: Destination()
+
     @Serializable
     object Permissions: Destination()
 

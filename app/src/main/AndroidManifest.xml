@@ -15,11 +15,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/splash"
+        android:icon="@drawable/splash2"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/splash"
+        android:roundIcon="@drawable/splash2"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MapsApp"
+        android:theme="@style/Theme.MySplashScreen"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
