@@ -23,7 +23,7 @@ class AuthViewModel(private val sharedPreferences: SharedPreferencesHelper) : Vi
     val user = _user
 
     init {
-        checkExistingSession()
+        //checkExistingSession()
     }
 
     //Comporbar dades al SharedPreferences

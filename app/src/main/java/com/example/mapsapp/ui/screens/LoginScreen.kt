@@ -29,8 +29,7 @@ import com.example.mapsapp.viewmodels.AuthViewModelFactory
 @Composable
 fun LoginScreen(NavigateToHome: () -> Unit, NavigateToRegister: () -> Unit) {
     val context = LocalContext.current
-    val viewModel: AuthViewModel =
-        viewModel(factory = AuthViewModelFactory(SharedPreferencesHelper(context)))
+    val viewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(SharedPreferencesHelper(context)))
     val authState = viewModel.authState.value
     val showError = viewModel.showError.value
 
@@ -64,6 +63,7 @@ fun LoginScreen(NavigateToHome: () -> Unit, NavigateToRegister: () -> Unit) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 viewModel.signIn()
+                NavigateToHome()
             }) {
                 Text("Login")
             }
