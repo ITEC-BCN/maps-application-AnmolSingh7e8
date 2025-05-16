@@ -37,6 +37,7 @@ import com.example.mapsapp.viewmodels.AuthViewModelFactory
 
 @Composable
 fun RegisterScreen(NavigateToHome: () -> Unit, NavigateToLogin: () -> Unit) {
+    //Variables que es fan servir
     val context = LocalContext.current
     val viewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(SharedPreferencesHelper(context)))
     val authState = viewModel.authState.value
