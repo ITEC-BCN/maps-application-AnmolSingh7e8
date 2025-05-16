@@ -3,9 +3,8 @@ package com.example.mapsapp.data
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.media3.common.Format
-import com.example.mapsapp.BuildConfig
 import com.example.mapsapp.utils.AuthState
+import com.example.mapsapp.BuildConfig
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth

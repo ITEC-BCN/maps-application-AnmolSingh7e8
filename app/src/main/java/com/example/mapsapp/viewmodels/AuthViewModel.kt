@@ -10,6 +10,7 @@ import com.example.mapsapp.utils.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 
 class AuthViewModel(private val sharedPreferences: SharedPreferencesHelper) : ViewModel() {
+    //Live datas per a l'email, contrasenya i estat d'autenticació
     private val authManager = MyApp.database
     private val _email = MutableLiveData<String>()
     val email = _email
@@ -23,7 +24,7 @@ class AuthViewModel(private val sharedPreferences: SharedPreferencesHelper) : Vi
     val user = _user
 
     init {
-        //checkExistingSession()
+        checkExistingSession()
     }
 
     //Comporbar dades al SharedPreferences

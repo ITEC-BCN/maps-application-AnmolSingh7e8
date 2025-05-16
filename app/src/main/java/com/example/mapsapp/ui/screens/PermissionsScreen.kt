@@ -32,7 +32,7 @@ import com.example.mapsapp.utils.PermissionStatus
 import com.example.mapsapp.viewmodels.PermissionViewModel
 
 @Composable
-fun PermissionsScreen(navigateToDrawer: () -> Unit) {
+fun PermissionsScreen(navigateToLogin: () -> Unit) {
     val activity = LocalContext.current as? Activity
     val viewModel = viewModel<PermissionViewModel>()
 
@@ -66,6 +66,10 @@ fun PermissionsScreen(navigateToDrawer: () -> Unit) {
         }
     }
 
+    if (permissions.all { permissionsStatus[it] == PermissionStatus.Granted }) {
+        navigateToLogin()
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -94,9 +98,9 @@ fun PermissionsScreen(navigateToDrawer: () -> Unit) {
             }) {
                 Text("Apply again")
             }
-        } else {
-            navigateToDrawer()
-        }
+        }// else {
+//            navigateToLogin()
+//        }
 
         if (permissions.any {
                 permissionsStatus[it] == PermissionStatus.PermanentlyDenied
@@ -111,8 +115,8 @@ fun PermissionsScreen(navigateToDrawer: () -> Unit) {
             }) {
                 Text("Go to settings")
             }
-        } else{
-            navigateToDrawer()
-        }
+       } //else{
+//            navigateToLogin()
+//        }
     }
 }
