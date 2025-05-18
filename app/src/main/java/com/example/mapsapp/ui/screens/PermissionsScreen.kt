@@ -35,9 +35,11 @@ import com.example.mapsapp.viewmodels.PermissionViewModel
 
 @Composable
 fun PermissionsScreen(navigateToLogin: () -> Unit) {
+    //Variables
     val activity = LocalContext.current as? Activity
     val viewModel = viewModel<PermissionViewModel>()
 
+    //Permissions types
     val permissions = listOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.CAMERA,
@@ -47,6 +49,7 @@ fun PermissionsScreen(navigateToLogin: () -> Unit) {
     val permissionsStatus = viewModel.permissionsStatus.value
     var alreadyRequested by remember { mutableStateOf(false) }
 
+    //Check if permissions are granted
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { result: Map<String, Boolean> ->
@@ -65,6 +68,7 @@ fun PermissionsScreen(navigateToLogin: () -> Unit) {
         }
     }
 
+    //Check if permissions are already granted
     LaunchedEffect(Unit) {
         if (!alreadyRequested) {
             alreadyRequested = true
@@ -72,6 +76,7 @@ fun PermissionsScreen(navigateToLogin: () -> Unit) {
         }
     }
 
+    //Permissions status
     if (permissions.all { permissionsStatus[it] == PermissionStatus.Granted }) {
         Column(
             modifier = Modifier.size(40.dp),

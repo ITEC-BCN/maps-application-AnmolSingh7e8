@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 
 class SharedPreferencesHelper(context: Context) {
+        // Aquesta classe s'utilitza per gestionar les preferències compartides per emmagatzemar fitxes d'autenticació
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
     fun saveAuthData(accessToken: String, refreshToken: String) {

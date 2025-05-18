@@ -45,8 +45,9 @@ fun RegisterScreen(NavigateToHome: () -> Unit, NavigateToLogin: () -> Unit) {
     val password by viewModel.password.observeAsState("")
 
     if (authState == AuthState.Authenticated) {
-        NavigateToHome()
+        NavigateToHome() // Si l'usuari ja està autenticat, redirigeix a la pantalla d'inici
     } else {
+        // Pantalla de registre
         Box(
             modifier = Modifier
                 .fillMaxSize(),

@@ -46,8 +46,9 @@ fun LoginScreen(NavigateToHome: () -> Unit, NavigateToRegister: () -> Unit) {
     val password by viewModel.password.observeAsState("")
 
     if (authState == AuthState.Authenticated) {
-        NavigateToHome()
+        NavigateToHome() //Navegacio a Home
     } else {
+        //Login Screen Content
         Box(
             modifier = Modifier
                 .fillMaxSize(),

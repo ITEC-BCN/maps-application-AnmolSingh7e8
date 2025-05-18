@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawerScreen(LogOut: () -> Unit) {
+    //Variables
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -54,6 +55,7 @@ fun DrawerScreen(LogOut: () -> Unit) {
             SharedPreferencesHelper(context)
         )
     )
+    //Drawer
     ModalNavigationDrawer(
         gesturesEnabled = false,
         drawerContent = {
@@ -96,6 +98,7 @@ fun DrawerScreen(LogOut: () -> Unit) {
         },
         drawerState = drawerState
     ) {
+        //Main content
         Scaffold(
             topBar = {
                 TopAppBar(

@@ -28,6 +28,7 @@ fun MainNavigationWrapper() {
     val navController = rememberNavController()
 
     NavHost(navController, Destination.Permissions) {
+        //Composable Permissions screen
         composable<Destination.Permissions> {
             PermissionsScreen {
                 navController.navigate(Destination.Login) {
@@ -36,6 +37,7 @@ fun MainNavigationWrapper() {
 
             }
         }
+        //Composable Login screen
         composable<Destination.Login> {
             LoginScreen(
                 NavigateToHome = {
@@ -50,6 +52,7 @@ fun MainNavigationWrapper() {
                 }
             )
         }
+        //Composable Register screen
         composable<Destination.SignUp> {
             RegisterScreen(
                 NavigateToHome = {
@@ -64,6 +67,7 @@ fun MainNavigationWrapper() {
                 }
             )
         }
+        //Composable Drawer screen
         composable<Destination.Drawer> {
             DrawerScreen(
                 LogOut = {

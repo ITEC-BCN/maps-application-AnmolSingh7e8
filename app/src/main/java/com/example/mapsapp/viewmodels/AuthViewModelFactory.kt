@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mapsapp.utils.SharedPreferencesHelper
 
 class AuthViewModelFactory(private val shredPreferences: SharedPreferencesHelper): ViewModelProvider.Factory {
+    //ViewModelFactory per passar el SharedPreferencesHelper al ViewModel
     override fun <T: ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
             return AuthViewModel(shredPreferences) as T

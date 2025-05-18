@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
-import com.example.mapsapp.ui.viewmodel.MarkerViewModel
 import com.example.mapsapp.viewmodels.SupaViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -22,14 +21,16 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @OptIn(UnstableApi::class)
 @Composable
 fun MapsScreen(NavigateToDetailScreen: (String) -> Unit) {
-    val markerViewModel: MarkerViewModel = viewModel()
+    //Variables
     val supaViewModel: SupaViewModel = viewModel()
     val markers = supaViewModel.markerList.observeAsState()
 
+    //Llamada a la función para obtener los marcadores
     LaunchedEffect(Unit) {
         supaViewModel.getAllMarkers()
     }
 
+    // Composable para el mapa
     Column(modifier = Modifier.fillMaxSize()) {
         val initialPosition = LatLng(41.4534225, 2.1837151)
         val cameraPositionState = rememberCameraPositionState {

@@ -21,36 +21,41 @@ fun InternalNavigationWrapper(
     function: () -> Unit,
 ) {
 
+
     NavHost(
         navController = navController,
         startDestination = Destination.Map,
         modifier = padding
     ) {
+        // Composable Mapa
         composable<Destination.Map> {
             MapsScreen { latLng -> navController.navigate(Destination.MarkerCreation(coordeandes = latLng)) }
-}
-        composable<Destination.List> {
-            MakerListScreen() { id ->
-                navController.navigate(Destination.MarkerDetail(id)) {
-                    popUpTo<Destination.Map> { inclusive = true }
+            // Composable List
+            composable<Destination.List> {
+                MakerListScreen() { id ->
+                    navController.navigate(Destination.MarkerDetail(id)) {
+                        popUpTo<Destination.Map> { inclusive = true }
+                    }
                 }
             }
-        }
 
-        composable<Destination.MarkerDetail>{
-            val markerDetail = it.toRoute<Destination.MarkerDetail>()
-            DetailMarkerScreen(id = markerDetail.id) {
-                navController.navigate(Destination.List) {
-                    popUpTo(Destination.Map) { inclusive = true }
+            // Composable Detalle
+            composable<Destination.MarkerDetail> {
+                val markerDetail = it.toRoute<Destination.MarkerDetail>()
+                DetailMarkerScreen(id = markerDetail.id) {
+                    navController.navigate(Destination.List) {
+                        popUpTo(Destination.Map) { inclusive = true }
+                    }
                 }
             }
-        }
 
-        composable<Destination.MarkerCreation> { backStackEntry ->
-            val markerCreation = backStackEntry.toRoute<Destination.MarkerCreation>()
-            CreateMarkerScreen(cordenadas = markerCreation.coordeandes) { // Pass the coordinates
-                navController.navigate(Destination.Map) {
-                    popUpTo<Destination.Map> { inclusive = true }
+            // Composable Crear
+            composable<Destination.MarkerCreation> { backStackEntry ->
+                val markerCreation = backStackEntry.toRoute<Destination.MarkerCreation>()
+                CreateMarkerScreen(cordenadas = markerCreation.coordeandes) { // Pass the coordinates
+                    navController.navigate(Destination.Map) {
+                        popUpTo<Destination.Map> { inclusive = true }
+                    }
                 }
             }
         }

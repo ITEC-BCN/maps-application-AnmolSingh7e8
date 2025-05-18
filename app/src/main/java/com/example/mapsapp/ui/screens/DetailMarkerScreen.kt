@@ -51,6 +51,7 @@ import com.example.mapsapp.viewmodels.SupaViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DetailMarkerScreen(id: Int, NavigateToBack: () -> Unit) {
+    // Variables per aquesta pantalla
     val supaViewModel: SupaViewModel = viewModel()
     val markers = supaViewModel.markerList.observeAsState(emptyList())
     val marker = markers.value.find { it.id == id }
@@ -61,10 +62,12 @@ fun DetailMarkerScreen(id: Int, NavigateToBack: () -> Unit) {
     var title by remember { mutableStateOf(marker?.title ?: "") }
     var description by remember { mutableStateOf(marker?.description ?: "") }
 
+    //Llamada a la función para obtener los marcadores
     LaunchedEffect(Unit) {
         supaViewModel.getAllMarkers()
     }
 
+    //Llançador per a la càmera
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) { success ->
@@ -76,7 +79,7 @@ fun DetailMarkerScreen(id: Int, NavigateToBack: () -> Unit) {
             }
         }
     }
-
+    //Llançador per a la galeria
     val pickImageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->

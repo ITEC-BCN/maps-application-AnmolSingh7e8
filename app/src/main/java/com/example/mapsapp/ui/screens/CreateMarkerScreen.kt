@@ -51,6 +51,7 @@ import java.io.File
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CreateMarkerScreen(cordenadas: String, NavigateToBack: () -> Unit) {
+//Variables que es fan servir en aquesta pantalla
     val supaViewModel: SupaViewModel = viewModel()
     val context = LocalContext.current
     val imageUri = remember { mutableStateOf<Uri?>(null) }
@@ -59,6 +60,7 @@ fun CreateMarkerScreen(cordenadas: String, NavigateToBack: () -> Unit) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
 
+    //Llançador per a la càmera
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) { success ->
@@ -70,7 +72,7 @@ fun CreateMarkerScreen(cordenadas: String, NavigateToBack: () -> Unit) {
             }
         }
     }
-
+    //Llançador per a la galeria
     val pickImageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
@@ -82,6 +84,7 @@ fun CreateMarkerScreen(cordenadas: String, NavigateToBack: () -> Unit) {
         }
     }
 
+    //Pantalla de creació de marcador
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -193,6 +196,7 @@ fun CreateMarkerScreen(cordenadas: String, NavigateToBack: () -> Unit) {
     }
 }
 
+//Funció per crear un URI temporal per a la imatge
 fun createImageUri(context: Context): Uri? {
     val file = File.createTempFile("temp_image_", ".jpg", context.cacheDir).apply {
         createNewFile()
