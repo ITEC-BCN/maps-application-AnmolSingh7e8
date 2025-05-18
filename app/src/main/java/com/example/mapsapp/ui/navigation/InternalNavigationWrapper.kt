@@ -28,9 +28,9 @@ fun InternalNavigationWrapper(
     ) {
         composable<Destination.Map> {
             MapsScreen { latLng -> navController.navigate(Destination.MarkerCreation(coordeandes = latLng)) }
-        }
+}
         composable<Destination.List> {
-            MakerListScreen { id ->
+            MakerListScreen() { id ->
                 navController.navigate(Destination.MarkerDetail(id)) {
                     popUpTo<Destination.Map> { inclusive = true }
                 }

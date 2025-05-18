@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.clip
 @Composable
 fun MakerListScreen(NavigateToDetail: (Int) -> Unit) {
     val supaViewModel: SupaViewModel = viewModel()
+    //val markers by supaViewModel.getMarkersForUser(userId).observeAsState(emptyList()) --> Diferent marcador per user
     val markers by supaViewModel.markerList.observeAsState(emptyList())
     supaViewModel.getAllMarkers()
 

@@ -67,6 +67,15 @@ class MySupabaseClient {
         client.from("Marker").insert(marker)
     }
 
+    // Els marcadors d'un usuari
+   suspend fun getMarkersForUser(userId: String): List<Marker> {
+       return client.from("Marker").select {
+           filter {
+               eq("user_id", userId)
+           }
+       }.decodeList<Marker>()
+   }
+
     //Actualitzar un marcador
     suspend fun updateMarker(
         id: Int,
@@ -98,6 +107,7 @@ class MySupabaseClient {
         }
 
     }
+
 
     //Autenticació
 

@@ -22,6 +22,8 @@ class AuthViewModel(private val sharedPreferences: SharedPreferencesHelper) : Vi
     val showError = _showError
     private val _user = MutableLiveData<String?>()
     val user = _user
+    private val _userId = MutableLiveData<String?>()
+    val userId = _userId
 
     init {
         checkExistingSession()
@@ -68,6 +70,7 @@ class AuthViewModel(private val sharedPreferences: SharedPreferencesHelper) : Vi
                     session!!.accessToken,
                     session.refreshToken
                 )
+                _userId.value = session.user?.id // Guardar el ID del usuario autenticado
             }
         }
     }
@@ -84,8 +87,13 @@ class AuthViewModel(private val sharedPreferences: SharedPreferencesHelper) : Vi
                     session!!.accessToken,
                     session.refreshToken
                 )
+                _userId.value = session.user?.id // Guardar el ID del usuario autenticado
             }
         }
+    }
+
+    fun getUserId(): String? {
+        return _userId.value
     }
 
 

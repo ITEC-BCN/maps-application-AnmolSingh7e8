@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,7 +54,11 @@ fun PermissionsScreen(navigateToLogin: () -> Unit) {
             val granted = result[permission] ?: false
             val status = when {
                 granted -> PermissionStatus.Granted
-                ActivityCompat.shouldShowRequestPermissionRationale(activity!!, permission) -> PermissionStatus.Denied
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    activity!!,
+                    permission
+                ) -> PermissionStatus.Denied
+
                 else -> PermissionStatus.PermanentlyDenied
             }
             viewModel.updatePermissionStatus(permission, status)
@@ -67,56 +73,60 @@ fun PermissionsScreen(navigateToLogin: () -> Unit) {
     }
 
     if (permissions.all { permissionsStatus[it] == PermissionStatus.Granted }) {
+        Column(
+            modifier = Modifier.size(40.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) { CircularProgressIndicator() }
         navigateToLogin()
-    }
+    } else if (permissions.all { permissionsStatus[it] == PermissionStatus.Denied }) {
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Permissions status:", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(16.dp))
-        permissions.forEach { permission ->
-            val status = permissionsStatus[permission]
-            val label = when (status) {
-                null -> "Requesting..."
-                PermissionStatus.Granted -> "Granted"
-                PermissionStatus.Denied -> "Denied"
-                PermissionStatus.PermanentlyDenied -> "Permanently denied"
-            }
-            val permissionName = permission.removePrefix("android.permission.")
-            Text("$permissionName: $label")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        if (permissions.any {
-                permissionsStatus[it] == PermissionStatus.Denied
-            }
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Button(onClick = {
-                launcher.launch(permissions.toTypedArray())
-            }) {
-                Text("Apply again")
-            }
-        }// else {
-//            navigateToLogin()
-//        }
-
-        if (permissions.any {
-                permissionsStatus[it] == PermissionStatus.PermanentlyDenied
-            }
-        ) {
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = {
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = Uri.fromParts("package", activity!!.packageName, null)
+            Text("Permissions status:", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(16.dp))
+            permissions.forEach { permission ->
+                val status = permissionsStatus[permission]
+                val label = when (status) {
+                    null -> "Requesting..."
+                    PermissionStatus.Granted -> "Granted"
+                    PermissionStatus.Denied -> "Denied"
+                    PermissionStatus.PermanentlyDenied -> "Permanently denied"
                 }
-                activity!!.startActivity(intent)
-            }) {
-                Text("Go to settings")
+                val permissionName = permission.removePrefix("android.permission.")
+                Text("$permissionName: $label")
             }
-       } //else{
+            Spacer(modifier = Modifier.height(16.dp))
+            if (permissions.any {
+                    permissionsStatus[it] == PermissionStatus.Denied
+                }
+            ) {
+                Button(onClick = {
+                    launcher.launch(permissions.toTypedArray())
+                }) {
+                    Text("Apply again")
+                }
+            }// else {
 //            navigateToLogin()
 //        }
+
+            if (permissions.any {
+                    permissionsStatus[it] == PermissionStatus.PermanentlyDenied
+                }
+            ) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", activity!!.packageName, null)
+                    }
+                    activity!!.startActivity(intent)
+                }) {
+                    Text("Go to settings")
+                }
+            }
+        }
     }
 }

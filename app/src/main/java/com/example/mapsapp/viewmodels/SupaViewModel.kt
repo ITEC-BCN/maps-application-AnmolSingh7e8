@@ -3,8 +3,10 @@ package com.example.mapsapp.viewmodels
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mapsapp.MyApp
 import com.example.mapsapp.data.Marker
 import kotlinx.coroutines.CoroutineScope
@@ -34,6 +36,7 @@ class SupaViewModel : ViewModel() {
     private val _imgUrl = MutableLiveData<String>()
     val markerImgUrl = _imgUrl
 
+    //Agafem tots els marcadors
     fun getAllMarkers() {
         CoroutineScope(Dispatchers.IO).launch {
             val databaseMarkers = database.getMarkers()
@@ -41,6 +44,16 @@ class SupaViewModel : ViewModel() {
                 _markerList.value = databaseMarkers
             }
         }
+    }
+
+    // Agafem tots el marcador de cada usuari
+    fun getMarkersForUser(userId: String): LiveData<List<Marker>> {
+        val markersLiveData = MutableLiveData<List<Marker>>()
+        viewModelScope.launch {
+            val markers = database.getMarkersForUser(userId) // Llama al cliente de Supabase
+            markersLiveData.postValue(markers)
+        }
+        return markersLiveData
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
